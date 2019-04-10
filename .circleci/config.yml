@@ -1,0 +1,31 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.7
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: |
+            sudo pip install -r requirements.txt
+
+      - run:
+          name: Run tests
+          command: |
+            coverage run test_hello.py
+
+      - run:
+          name: Report results to DeepSource
+          command: |
+            # Generate coverage report in xml format
+            coverage xml
+
+            # Install deepsource CLI
+            curl https://deepsource.io/cli | sh
+
+            # Report coverage artifact to 'test-coverage' analyzer
+            ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
