@@ -16,3 +16,7 @@ runtime_version = "3.x.x"
 [[analyzers]]
 name = "test-coverage"
 enabled = true
+
+[[analyzers]]
+name = "secrets"
+enabled = true
